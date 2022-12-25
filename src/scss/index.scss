@@ -1,5 +1,5 @@
 #container {
-  display: flex;
+  position: relative;
 }
 #number-group {
   display: grid;
@@ -20,6 +20,9 @@
   }
 }
 #calculate-group {
+  position: absolute;
+  left: 150px;
+  top: 0;
   > button {
     background-color: orange;
     border: 1px solid #fff;
@@ -28,4 +31,25 @@
     display: block;
     height: 50px;
   }
+}
+#NumberPade {
+  display: flex;
+}
+.reset-button {
+  > button {
+    background-color: orange;
+    border: 1px solid #fff;
+    width: 150px;
+    font-size: 30px;
+    height: 50px;
+  }
+}
+.display {
+  background-color: darkgray;
+  border: none;
+  font-size: 30px;
+  text-align: right;
+  width: 200px;
+  padding: 0;
+  color: #fff;
 }

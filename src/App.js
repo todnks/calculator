@@ -15,6 +15,7 @@ export class App extends Component {
       ({ target }) => {
         if (!target.dataset.count) return;
         let { count } = this.state;
+
         if (count === 0) {
           if (target.dataset.count === "0") {
             return;
@@ -35,13 +36,12 @@ export class App extends Component {
   }
   CalculateAction() {
     const CalculateButton = document.querySelector("#calculate-group");
+    const ResetButton = document.querySelector(".reset-button");
     CalculateButton.addEventListener(
       "click",
       ({ target }) => {
         let { count } = this.state;
-        let { calculate } = this.state;
         const symbol = target.dataset.symbol;
-
         if (symbol === "calculate") {
           const calculateNumber = eval(count);
           this.setState({
@@ -50,17 +50,7 @@ export class App extends Component {
           });
           return;
         }
-        if (symbol === "reset") {
-          this.setState({
-            count: (count = 0),
-            calculate: false,
-          });
-          return;
-        }
-        if (calculate) {
-          this.setState();
-          return;
-        }
+
         this.setState({
           count: (count += symbol),
           calculate: true,
@@ -68,6 +58,13 @@ export class App extends Component {
       },
       { once: true }
     );
+    ResetButton.addEventListener("click", () => {
+      this.setState({
+        count: 0,
+        calculate: false,
+      });
+      return;
+    });
   }
 
   onUpdate() {}
@@ -78,9 +75,13 @@ export class App extends Component {
     const { count } = this.state;
 
     return `
-    <input value="${count}" type="text" readonly>
+    <input class="display" value="${count}" type="text" readonly>
     <div id="container">
-        <div id="number-group">
+        <div class="reset-button">
+          <button type="button" data-symbol="reset" class="reset">AC</button>
+        </div>
+        <div id="NumberPade">
+          <div id="number-group">
             <button type="button" data-count="7">7</button>
             <button type="button" data-count="8">8</button>
             <button type="button" data-count="9">9</button>
@@ -91,14 +92,14 @@ export class App extends Component {
             <button type="button" data-count="2">2</button>
             <button type="button" data-count="3">3</button>
             <button type="button" data-count="0">0</button>
-        </div>
-        <div id="calculate-group">
+         </div>
+          <div id="calculate-group">
+            <button type="button" data-symbol="/">÷</button>
             <button type="button" data-symbol="+">+</button>
             <button type="button" data-symbol="-">-</button>
             <button type="button" data-symbol="*">x</button>
-            <button type="button" data-symbol="/">÷</button>
             <button type="button" class="calculate" data-symbol="calculate">=</button>
-            <button type="button" data-symbol="reset" class="reset">AC</button>
+          </div>
         </div>
       </div>
     `;
