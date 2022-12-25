@@ -1,0 +1,32 @@
+#container {
+  display: flex;
+}
+#number-group {
+  display: grid;
+  width: 150px;
+  height: 200px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 1px;
+  > button {
+    background-color: whitesmoke;
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
+    border: none;
+    padding: 0;
+  }
+  > button:nth-last-child(1) {
+    grid-column: 1 / 4;
+  }
+}
+#calculate-group {
+  > button {
+    background-color: orange;
+    border: 1px solid #fff;
+    width: 50px;
+    font-size: 30px;
+    display: block;
+    height: 50px;
+  }
+}
