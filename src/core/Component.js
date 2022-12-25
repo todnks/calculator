@@ -12,7 +12,7 @@ export class Component {
   stateInit() {
     return {};
   }
-  eventInit() {}
+  NumberAction() {}
   CalculateAction() {}
   setup() {
     this.state = this.stateInit();
@@ -30,7 +30,7 @@ export class Component {
 
   render(isUpdate = false) {
     if (this.#element) this.#element.innerHTML = this.template();
-    this.eventInit();
+    this.NumberAction();
     this.CalculateAction();
     if (isUpdate) {
       this.onUpdate();

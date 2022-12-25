@@ -4,10 +4,11 @@ export class App extends Component {
   stateInit() {
     return {
       count: 0,
+      calculate: false,
     };
   }
 
-  eventInit() {
+  NumberAction() {
     const NumberButton = document.querySelector("#number-group");
     NumberButton.addEventListener(
       "click",
@@ -31,14 +32,6 @@ export class App extends Component {
       },
       { once: true }
     );
-    const CalculateButton = document.querySelector(".calculate");
-    CalculateButton.addEventListener("click", () => {
-      let { count } = this.state;
-      const CalculateNumber = eval(count);
-      this.setState({
-        count: (count = CalculateNumber),
-      });
-    });
   }
   CalculateAction() {
     const CalculateButton = document.querySelector("#calculate-group");
@@ -46,9 +39,31 @@ export class App extends Component {
       "click",
       ({ target }) => {
         let { count } = this.state;
+        let { calculate } = this.state;
         const symbol = target.dataset.symbol;
+
+        if (symbol === "calculate") {
+          const calculateNumber = eval(count);
+          this.setState({
+            count: (count = calculateNumber),
+            calculate: false,
+          });
+          return;
+        }
+        if (symbol === "reset") {
+          this.setState({
+            count: (count = 0),
+            calculate: false,
+          });
+          return;
+        }
+        if (calculate) {
+          this.setState();
+          return;
+        }
         this.setState({
           count: (count += symbol),
+          calculate: true,
         });
       },
       { once: true }
@@ -64,26 +79,27 @@ export class App extends Component {
 
     return `
     <input value="${count}" type="text" readonly>
-      <div id="container">
+    <div id="container">
         <div id="number-group">
-            <button tpye="button" data-count="7">7</button>
-            <button tpye="button" data-count="8">8</button>
-            <button tpye="button" data-count="9">9</button>
-            <button tpye="button" data-count="4">4</button>
-            <button tpye="button" data-count="5">5</button>
-            <button tpye="button" data-count="6">6</button>
-            <button tpye="button" data-count="1">1</button>
-            <button tpye="button" data-count="2">2</button>
-            <button tpye="button" data-count="3">3</button>
-            <button tpye="button" data-count="0">0</button>
+            <button type="button" data-count="7">7</button>
+            <button type="button" data-count="8">8</button>
+            <button type="button" data-count="9">9</button>
+            <button type="button" data-count="4">4</button>
+            <button type="button" data-count="5">5</button>
+            <button type="button" data-count="6">6</button>
+            <button type="button" data-count="1">1</button>
+            <button type="button" data-count="2">2</button>
+            <button type="button" data-count="3">3</button>
+            <button type="button" data-count="0">0</button>
         </div>
         <div id="calculate-group">
             <button type="button" data-symbol="+">+</button>
             <button type="button" data-symbol="-">-</button>
             <button type="button" data-symbol="*">x</button>
             <button type="button" data-symbol="/">÷</button>
+            <button type="button" class="calculate" data-symbol="calculate">=</button>
+            <button type="button" data-symbol="reset" class="reset">AC</button>
         </div>
-        <button type="button" class="calculate" data-symbol="calculate">=</button>
       </div>
     `;
   }
