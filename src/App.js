@@ -15,21 +15,20 @@ export class App extends Component {
       ({ target }) => {
         if (!target.dataset.count) return;
         let { count } = this.state;
-
+        const Count = target.dataset.count;
         if (count === 0) {
-          if (target.dataset.count === "0") {
+          this.setState({
+            count: (count = Count),
+          });
+          if (Count === "0") {
+            this.setState();
             return;
           }
-          const updateCount = target.dataset.count;
+        } else {
           this.setState({
-            count: (count = updateCount),
+            count: (count += Count),
           });
-          return;
         }
-        const firstnumber = (count += target.dataset.count);
-        this.setState({
-          count: (count = firstnumber),
-        });
       },
       { once: true }
     );
@@ -41,6 +40,7 @@ export class App extends Component {
       "click",
       ({ target }) => {
         let { count } = this.state;
+        let { calculate } = this.state;
         const symbol = target.dataset.symbol;
         if (symbol === "calculate") {
           const calculateNumber = eval(count);
@@ -50,7 +50,10 @@ export class App extends Component {
           });
           return;
         }
-
+        if (calculate) {
+          this.setState();
+          return;
+        }
         this.setState({
           count: (count += symbol),
           calculate: true,
