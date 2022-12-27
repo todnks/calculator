@@ -4,6 +4,7 @@ export class App extends Component {
   stateInit() {
     return {
       count: 0,
+      history: [],
       calculate: false,
     };
   }
@@ -27,6 +28,7 @@ export class App extends Component {
         } else {
           this.setState({
             count: (count += Count),
+            calculate: false,
           });
         }
       },
@@ -41,9 +43,12 @@ export class App extends Component {
       ({ target }) => {
         let { count } = this.state;
         let { calculate } = this.state;
+        let { history } = this.state;
         const symbol = target.dataset.symbol;
         if (symbol === "calculate") {
           const calculateNumber = eval(count);
+          const aa = [`${count} = ${calculateNumber} `];
+          console.log(history.push(aa));
           this.setState({
             count: (count = calculateNumber),
             calculate: false,
@@ -76,6 +81,7 @@ export class App extends Component {
 
   template() {
     const { count } = this.state;
+    const { history } = this.state;
 
     return `
     <input class="display" value="${count}" type="text" readonly>
@@ -103,7 +109,10 @@ export class App extends Component {
             <button type="button" data-symbol="*">x</button>
             <button type="button" class="calculate" data-symbol="calculate">=</button>
           </div>
-        </div>
+          </div>
+          <div id="history">
+            ${history}
+          </div>
       </div>
     `;
   }
