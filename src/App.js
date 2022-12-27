@@ -48,7 +48,10 @@ export class App extends Component {
         if (symbol === "calculate") {
           const calculateNumber = eval(count);
           const aa = [`${count} = ${calculateNumber} `];
-          console.log(history.push(aa));
+          history.push(aa);
+          if (history.length >= 10) {
+            history.shift();
+          }
           this.setState({
             count: (count = calculateNumber),
             calculate: false,
