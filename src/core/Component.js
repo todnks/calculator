@@ -17,26 +17,21 @@ export class Component {
   setup() {
     this.state = this.stateInit();
   }
-  onMounted() {}
-  onUpdate() {}
+  onMounted() {
+    this.CalculateAction();
+  }
   setState(updateState) {
     this.state = { ...this.state, ...updateState };
     this.render(true);
   }
 
   template() {
-    return "";
+    return '';
   }
 
-  render(isUpdate = false) {
+  render() {
     if (this.#element) this.#element.innerHTML = this.template();
     this.NumberAction();
-    this.CalculateAction();
-    if (isUpdate) {
-      this.onUpdate();
-      return;
-    }
-
     this.onMounted();
   }
 }

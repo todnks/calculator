@@ -1,60 +1,84 @@
-import { Component } from "@core/Component";
+import { Component } from '@core/Component';
 
 export class App extends Component {
   stateInit() {
     return {
-      count: 0,
+      count: '0',
       history: [],
-      calculate: false,
+      number1: '',
+      number2: '',
+      calculate: '',
     };
   }
 
   NumberAction() {
-    const NumberButton = document.querySelector("#number-group");
+    const NumberButton = document.querySelector('#number-group');
     NumberButton.addEventListener(
-      "click",
+      'click',
       ({ target }) => {
         if (!target.dataset.count) return;
         let { count } = this.state;
+        let { number2 } = this.state;
+        let { number1 } = this.state;
+        let { calculate } = this.state;
         const Count = target.dataset.count;
-        if (count === 0) {
+        if (count === '0') {
           this.setState({
             count: (count = Count),
+            number1: (number1 = Count),
           });
-          if (Count === "0") {
+          if (Count === '0') {
             this.setState();
             return;
           }
-        } else {
+          return;
+        }
+        if (calculate != '') {
           this.setState({
-            count: (count += Count),
-            calculate: false,
+            number2: (number2 += Count),
           });
         }
+        if (!calculate) {
+          this.setState({
+            number1: (number1 += Count),
+          });
+        }
+        this.setState({
+          count: (count += Count),
+        });
       },
       { once: true }
     );
   }
   CalculateAction() {
-    const CalculateButton = document.querySelector("#calculate-group");
-    const ResetButton = document.querySelector(".reset-button");
+    const CalculateButton = document.querySelector('#calculate-group');
+    const ResetButton = document.querySelector('.reset-button');
     CalculateButton.addEventListener(
-      "click",
+      'click',
       ({ target }) => {
         let { count } = this.state;
         let { calculate } = this.state;
         let { history } = this.state;
+        let { number2 } = this.state;
+        let { number1 } = this.state;
+        const result = `${Number(number1)}${calculate}${Number(number2)}`;
         const symbol = target.dataset.symbol;
-        if (symbol === "calculate") {
-          const calculateNumber = eval(count);
-          const aa = [`${count} = ${calculateNumber} `];
-          history.push(aa);
+        if (symbol === 'calculate') {
+          if (number2 === '') {
+            this.setState();
+            return;
+          }
+          const calculateNumber = eval(result);
+          const answerNumber = [`${result} = ${calculateNumber}`];
+          history.push(answerNumber);
           if (history.length >= 10) {
             history.shift();
           }
           this.setState({
             count: (count = calculateNumber),
-            calculate: false,
+            number1: (number1 = calculateNumber),
+            number2: '',
+            calculate: '',
           });
           return;
         }
@@ -64,28 +88,33 @@ export class App extends Component {
         }
         this.setState({
           count: (count += symbol),
-          calculate: true,
+          calculate: symbol,
         });
       },
       { once: true }
     );
-    ResetButton.addEventListener("click", () => {
-      this.setState({
-        count: 0,
-        calculate: false,
-      });
-      return;
-    });
+    ResetButton.addEventListener(
+      'click',
+      () => {
+        this.setState({
+          count: '0',
+          calculate: '',
+          number2: '',
+          number1: '',
+        });
+      },
+      { once: true }
+    );
   }
 
   onUpdate() {}
 
-  onMounted() {}
-
   template() {
     const { count } = this.state;
     const { history } = this.state;
-
+    const { calculate } = this.state;
+    const { number1 } = this.state;
+    const { number2 } = this.state;
     return `
     <input class="display" value="${count}" type="text" readonly>
     <div id="container">
@@ -115,7 +144,7 @@ export class App extends Component {
           </div>
           <div id="history">
             ${history}
-          </div>
+            </div>
       </div>
     `;
   }
