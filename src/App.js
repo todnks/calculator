@@ -1,39 +1,36 @@
-import { Component } from '@core/Component';
+import { Component } from "@core/Component";
 
 export class App extends Component {
   stateInit() {
     return {
-      count: '0',
+      count: "0",
       history: [],
-      number1: '',
-      number2: '',
-      calculate: '',
+      number1: "",
+      number2: "",
+      calculate: "",
     };
   }
 
   NumberAction() {
-    const NumberButton = document.querySelector('#number-group');
+    const NumberButton = document.querySelector("#number-group");
     NumberButton.addEventListener(
-      'click',
+      "click",
       ({ target }) => {
         if (!target.dataset.count) return;
-        let { count } = this.state;
-        let { number2 } = this.state;
-        let { number1 } = this.state;
-        let { calculate } = this.state;
+        let { count, calculate, number1, number2 } = this.state;
         const Count = target.dataset.count;
-        if (count === '0') {
+        if (count === "0") {
           this.setState({
             count: (count = Count),
             number1: (number1 = Count),
           });
-          if (Count === '0') {
+          if (Count === "0") {
             this.setState();
             return;
           }
           return;
         }
-        if (calculate != '') {
+        if (calculate != "") {
           this.setState({
             number2: (number2 += Count),
           });
@@ -51,20 +48,16 @@ export class App extends Component {
     );
   }
   CalculateAction() {
-    const CalculateButton = document.querySelector('#calculate-group');
-    const ResetButton = document.querySelector('.reset-button');
+    const CalculateButton = document.querySelector("#calculate-group");
+    const ResetButton = document.querySelector(".reset-button");
     CalculateButton.addEventListener(
-      'click',
+      "click",
       ({ target }) => {
-        let { count } = this.state;
-        let { calculate } = this.state;
-        let { history } = this.state;
-        let { number2 } = this.state;
-        let { number1 } = this.state;
+        let { count, calculate, history, number1, number2 } = this.state;
         const result = `${Number(number1)}${calculate}${Number(number2)}`;
         const symbol = target.dataset.symbol;
-        if (symbol === 'calculate') {
-          if (number2 === '') {
+        if (symbol === "calculate") {
+          if (number2 === "") {
             this.setState();
             return;
           }
@@ -77,8 +70,8 @@ export class App extends Component {
           this.setState({
             count: (count = calculateNumber),
             number1: (number1 = calculateNumber),
-            number2: '',
-            calculate: '',
+            number2: "",
+            calculate: "",
           });
           return;
         }
@@ -94,13 +87,13 @@ export class App extends Component {
       { once: true }
     );
     ResetButton.addEventListener(
-      'click',
+      "click",
       () => {
         this.setState({
-          count: '0',
-          calculate: '',
-          number2: '',
-          number1: '',
+          count: "0",
+          calculate: "",
+          number2: "",
+          number1: "",
         });
       },
       { once: true }
@@ -110,11 +103,7 @@ export class App extends Component {
   onUpdate() {}
 
   template() {
-    const { count } = this.state;
-    const { history } = this.state;
-    const { calculate } = this.state;
-    const { number1 } = this.state;
-    const { number2 } = this.state;
+    const { count, history } = this.state;
     return `
     <input class="display" value="${count}" type="text" readonly>
     <div id="container">
